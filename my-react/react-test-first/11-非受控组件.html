@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+</head>
+<body>
+	<div id="example">
+		
+	</div>
+</body>
+<script src="react.js" type="text/javascript" charset="utf-8"></script>
+<script src="react-dom.js" type="text/javascript" charset="utf-8"></script>
+<script src="browser.min.js" type="text/javascript" charset="utf-8"></script>
+<!--默认的type为text/javascript::::::因为这里写的是jsx语法,不是js语法,所以需要将type改写为text/babel-->
+<script type="text/babel">
+class NewComponent extends React.Component {
+	constructor(props){
+		super(props)//固定写法:::继承父类中已有的属性
+
+		this.state = {			
+			arr:['guo','jia','na','chuan'],
+			inputValue:'input初始值'
+		}
+		this.clickHandle = this.clickHandle.bind(this)
+	}
+	render(){
+		let lis = this.state.arr.map((ele,index) =>{
+			return <li key={index}>{ele}</li>
+		})
+		
+		return(
+			//要想组件受控,必须给其添加一个onChange事件
+			//非受控组件,及input的值一直为初始化的值,无法发生变化,即使我们主动改变其值,也无法更改
+			
+			//这里就是非受控组件
+			<div>
+				
+				<input value={this.state.inputValue}></input> 
+				{this.state.inputValue}
+				<button onClick={() => {this.clickHandle()}}>添加</button>
+				<ul>
+					{lis}
+				</ul>
+			</div>
+		)
+	}
+	clickHandle(val){
+		this.setState({
+			
+		})
+	}
+}
+ReactDOM.render(
+	<div>		
+		<NewComponent ></NewComponent>
+	</div>	
+	,
+	document.getElementById('example')
+)
+</script>
+</html>

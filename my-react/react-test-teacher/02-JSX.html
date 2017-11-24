@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+	<div id="example"></div>	
+	<script src="react.js"></script>
+    <script src="react-dom.js"></script>
+    <script src="browser.min.js"></script>
+    
+     <script type="text/babel">
+//   	var newDom = <a href="https://baidu.com">Hello!</a>;
+		var newDom = React.createElement('a', {href: 'https://baidu.com'}, 'Hello!');
+
+     	ReactDOM.render(
+     		newDom,
+     		document.getElementById("example")
+     	);
+     	
+     	
+     	
+     	
+     </script>
+	</body>
+</html>

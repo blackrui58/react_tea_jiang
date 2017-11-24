@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+</head>
+<body>
+	<div id="example">
+		
+	</div>
+</body>
+<script src="react.js" type="text/javascript" charset="utf-8"></script>
+<script src="react-dom.js" type="text/javascript" charset="utf-8"></script>
+<script src="browser.min.js" type="text/javascript" charset="utf-8"></script>
+<!--默认的type为text/javascript::::::因为这里写的是jsx语法,不是js语法,所以需要将type改写为text/babel-->
+<script type="text/babel">
+class NewComponent extends React.Component {
+	constructor(props){
+		super(props)//固定写法:::继承父类中已有的属性
+//		this.state = {
+//			msg:'es6写法变量赋值'
+//		}
+//		上面是单个变量,下面有{this.state.msg}还可以,若是多个变量呢;;;;;如
+		this.state = {
+			msg:'guorui',
+			name:'jiahui',
+			age:"nana",
+			toggle:true
+		}
+		this.clickHandle = this.clickHandle.bind(this)
+	}
+	render(){
+		//用解构赋值的方法减少this.state的书写::即
+		let {msg,name,age} = this.state
+		//同理::若父组件传值过来的值数太多,也可以进行结构赋值,如下所示,就不用{this.props.title}这样来调用父组件传递过来的值
+		let{title} =this.props
+		
+		let tag = null;
+		
+		if(this.state.toggle){
+			tag = <p>好好好好好</p>
+		}else{
+			tag = <p>坏坏坏</p>
+		}
+		
+		return(
+			<div>
+				<h1 onClick={() => {this.clickHandle()}}>es6的组件的写法   {title}</h1>
+				{tag}
+			</div>
+		)
+	}
+	clickHandle(val){
+		//设置变量值   this.setState({ })  和微信小程序中的设置值一样,用this.setData({})
+		//获取变量   this.state.变量名    和微信小程序中的获取值一样,用this.data.变量名
+		//this.setState中进行赋值的话,前面的变量直接写,不是调用,所以不用写this.state.toggle,直接写toggle
+		this.setState({
+			toggle : !this.state.toggle
+		})
+	}
+}
+//给父组件传递过来的值设置默认值:::用defaultProps方法[格式为:::类名.defaultProps]
+NewComponent.defaultProps = {
+	title:'es6中设置的默认值--父组件传递过来的'
+}
+
+ReactDOM.render(
+	<div>
+		
+		<NewComponent ></NewComponent>
+	</div>
+	
+	,
+	document.getElementById('example')
+)
+</script>
+</html>

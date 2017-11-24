@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+	<div id="example"></div>	
+	<script src="react.js"></script>
+    <script src="react-dom.js"></script>
+    <script src="browser.min.js"></script>
+    
+    <script type	 = "text/babel">
+		class Component1 extends React.Component{ //类名开头一定要大写
+			render(){
+				return (
+					<div>{this.props.title}{this.props.name}</div>
+				);
+			}
+		}
+		
+		Component1.defaultProps = {
+     		title: '测试Props'
+     	};
+     	
+		
+    	ReactDOM.render(
+     		<Component1 name = "aaa"></Component1> ,
+     		document.getElementById("example")
+     	);
+     	
+    </script>
+	</body>
+</html>

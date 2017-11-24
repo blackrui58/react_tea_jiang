@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+	<div id="example"></div>	
+	<script src="react.js"></script>
+    <script src="react-dom.js"></script>
+    <script src="browser.min.js"></script>
+    
+    <script type = "text/babel">
+		class Component1 extends React.Component{ //类名开头一定要大写
+			constructor(props){
+				super(props);
+				this.state = {
+					msg: 'hello',
+					toggle: true
+				}
+				
+				this.clickHandle = this.clickHandle.bind(this);
+			}
+			
+			render(){
+				let pps = null; 
+				
+				if(this.state.toggle){
+					pps = <div><p>显示</p><p>显示</p></div>;
+				}else{
+					pps = <div><p>不显示</p><p>不显示</p></div>;
+				}
+    			
+				return (
+					<div>
+						<button onClick = {this.clickHandle}>切换</button>
+					 	{pps}
+					
+					</div>
+				);
+			}
+			
+			clickHandle(){
+				this.setState({
+					toggle: !this.state.toggle
+				});
+			}
+		}
+		
+		
+    	ReactDOM.render(
+     		<Component1></Component1> ,
+     		document.getElementById("example")
+     	);
+     	
+    </script>
+	</body>
+</html>

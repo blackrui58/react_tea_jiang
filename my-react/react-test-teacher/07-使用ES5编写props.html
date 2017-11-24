@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id="example"></div>	
+	<script src="react.js"></script>
+    <script src="react-dom.js"></script>
+    <script src="browser.min.js"></script>
+    
+    <script type	 = "text/babel">
+		var Component1 = React.createClass({ //类名开头一定要大写
+		    //getDefaultProps : props 的默认赋值, 更复杂的属性验证也可以做 
+			render:function(){
+				return (
+					<div>{this.props.title}{this.props.name}</div>
+				);
+			},
+			getDefaultProps:function(){
+				return {
+					title: '默认title'
+				}
+			}
+		}); 
+    	ReactDOM.render(
+     		<Component1 title = "ccc" name = "aaa"></Component1> ,
+     		document.getElementById("example")
+     	);
+     	
+    </script>
+	</body>
+</html>

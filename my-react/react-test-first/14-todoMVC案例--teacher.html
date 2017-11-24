@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			.editing{
+				background:red;
+			}
+			.normal {
+				background: #ccc;
+			}
+		</style>
+	</head>
+	<body>
+		
+	<div id="example"></div>	
+	<script src="react.js"></script>
+    <script src="react-dom.js"></script>
+    <script src="browser.min.js"></script>
+    
+     <script type="text/babel">
+     	class Component1 extends React.Component{
+     		constructor(props){
+     			super(props);
+     			this.state = {
+     				inputVal:"",
+     				tasks: [{
+     					taskName: 'aaa'
+     				},{
+     					taskName: 'bbb'
+     				},{
+     					taskName: 'cccc'
+     				},{
+     					taskName: 'dddd'
+     				},{
+     					taskName: 'aafffa'
+     				}],
+     				editItem: {}
+     			};
+     			this.inputChange = this.inputChange.bind(this);
+     			this.keyDownHandler = this.keyDownHandler.bind(this);
+     			this.delTask = this.delTask.bind(this);
+     			this.editTask = this.editTask.bind(this);
+     		}
+     		inputChange(ev){
+     			this.setState({
+     				inputVal: ev.target.value
+     			});
+     		}
+     		
+     		keyDownHandler(ev){
+     			if(ev.keyCode == 13){
+     				
+     			}
+     		}
+     		delTask(v){
+     			var index = this.state.tasks.indexOf(v);
+     			console.log(index);
+     			var data=this.state.tasks
+     			data.splice(index, 1);
+     			this.setState({
+     				tasks:data
+     			})
+     		}
+     		editTask(v){
+     			this.setState({
+     				editItem: v
+     			})
+     		}
+     		render(){
+     			
+     			let {inputVal,editItem} = this.state;
+     			let {inputChange , keyDownHandler , delTask,editTask} = this;
+     			
+     			let lis = this.state.tasks.map((v ,i )=>{
+					return <li onDoubleClick = {()=>{editTask(v)}} className = {editItem === v ? 'editing' : 'normal'}  key = {i}>{v.taskName}<button onClick = {()=>{delTask(v)}}>删除</button></li>;
+				});
+				
+     			return <div>
+     				<input  value = {inputVal} onChange = {inputChange} onKeyDown = {keyDownHandler} />
+   					{lis}
+     			</div>;
+     		}
+     	}
+     	
+     	ReactDOM.render(
+     		<Component1 ></Component1> ,
+     		document.getElementById("example")
+     	);
+     </script>
+	</body>
+</html>

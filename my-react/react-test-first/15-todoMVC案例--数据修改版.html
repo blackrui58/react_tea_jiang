@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh">
+<style type="text/css">
+	.active{
+		background: #FF0000;
+		display: none;
+	}
+	.normal{
+		background: #CCCCCC;
+		display: block;
+	}
+	.inputActive{
+		display: block;
+	}
+	.inputNormal{
+		display: none;
+	}
+	.del{
+		text-decoration: line-through;
+	}
+	span{
+		padding: 2px;
+		border: 1px solid #CCCCCC;
+	}
+	.main{
+		margin:40px;
+	}
+</style>
+<head>
+	<meta charset="UTF-8" />
+	
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+</head>
+<body>
+	<div id="example">
+		
+	</div>
+</body>
+<script src="react.js" type="text/javascript" charset="utf-8"></script>
+<script src="react-dom.js" type="text/javascript" charset="utf-8"></script>
+<script src="browser.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/babel">
+class NewComponent extends React.Component {
+	constructor(props){
+		super(props)
+		this.state = {
+			arr:[
+				{
+					name:'guo',
+					isChecked:true
+				},
+				{
+					name:'jia',
+					isChecked:false
+				},
+				{
+					name:'na',
+					isChecked:false
+				},
+				{
+					name:'chuan',
+					isChecked:false
+				}
+			],
+
+			inputValue:'',
+//			editItem用来存储当前作用的元素的name值:::仅仅是name值
+			editItem:'初始化的值',
+			noFinishSum:4,
+			//默认执行的筛选条件变量
+			toFilter:"all"
+
+		}
+		this.clickHandle = this.clickHandle.bind(this)
+		this.addList = this.addList.bind(this)
+		this.deleteList = this.deleteList.bind(this)
+		this.editList = this.editList.bind(this)
+		//确认更新事件函数
+		this.confirmChange = this.confirmChange.bind(this)
+		this.checkBoxChange = this.checkBoxChange.bind(this)
+		
+		this.noFinishSum = this.noFinishSum.bind(this)
+		
+		//全部:::完成::未完成
+		this.allTest = this.allTest.bind(this)
+		this.noTest = this.noTest.bind(this)
+		this.doTest = this.doTest.bind(this)
+		
+		this.arrFilter = this.arrFilter.bind(this)
+		
+	}
+	render(){
+		//默认情况下,执行一下过滤函数,返回一个被过滤之后的全新的数组,从而可以保证原数据不被篡改
+		let showArr = this.arrFilter(this.state.toFilter)
+		console.log('render内部')
+		console.log(showArr)
+		let {editItem} = this.state
+		//在数组中,若是对数组进行排序的话,序列值会发生改变,如果通过序列值来判断数组中的某一元素,然后进行操作,容易产生误差
+		//在内存中,对象具有唯一性,所以若根据数组中的每一项来判断每一个元素,将可以完全保证其正确性
+		let lis = showArr.map((ele,index) =>{
+			return <div key={index} >
+				<input type="checkbox" checked={ele.isChecked} onChange={  (evt)=>{this.checkBoxChange(ele,evt)}  }></input>
+				
+				<li onDoubleClick ={  ()=>{this.editList (ele)}  } className= {editItem === ele.name ? 'active' : 'normal' } ><span className={ele.isChecked ? 'del' :'normal'}> {ele.name} </span> </li>
+				
+				<input className= {editItem === ele.name ? 'inputActive' : 'inputNormal'} value={this.state.inputValue ? this.state.inputValue : ele.name} onChange={this.clickHandle} onBlur={ () => {this.confirmChange(ele)} } ref={ele.name}></input>
+				
+				<button onClick={() => {this.deleteList(index)}}>删除</button>
+				<button onClick={() => {this.editList(index)}}>编辑</button>
+				
+			</div> 
+			
+		})
+		
+		return(
+			<div>
+				<div>
+					<span>还有{this.state.noFinishSum}个任务未完成</span>
+					<span onClick={ ()=>{this.allTest('all')} }>所有任务</span>
+					<span onClick={ ()=>{this.noTest('no')} }>未完成的任务</span>
+					<span onClick={ ()=>{this.doTest('do')} }>完成的任务</span>
+				
+				</div>
+				<div className="main">
+					<input value={this.state.inputValue} onChange={this.clickHandle}></input> 
+					<button onClick={() => {this.addList()}}>添加</button>
+				</div>
+				
+				<ul>
+					{lis} 
+					
+				</ul>
+			</div>
+		)
+	}
+	allTest(){
+		this.state.toFilter = 'all'
+		this.setState({
+			toFilter:this.state.toFilter
+		})
+		console.log(this.state.toFilter)
+	}
+	doTest(){
+		this.state.toFilter = 'do'
+		this.setState({
+			toFilter:this.state.toFilter
+		})
+		console.log(this.state.toFilter)
+	}	
+	noTest(){
+		this.state.toFilter = 'no'
+		this.setState({
+			toFilter: this.state.toFilter
+		})
+		console.log(this.state.toFilter)
+//		console.log('未完成任务')
+//		var allArr = this.state.arr.concat([])
+//		console.log(allArr)
+//		let noArr = allArr.filter((ele,index)=>{
+//			return !ele.isChecked 
+//		})
+//		this.setState({
+//			arr:noArr
+//		})
+	}
+	arrFilter(toFilter){
+		console.log('重新渲染了')
+//		let {toFilter} = this.state
+		if(toFilter === 'all'){
+			return this.state.arr
+		}else if(toFilter === 'do'){
+			console.log('进入do')
+			return this.state.arr.filter((ele)=>{
+				console.log(ele)
+				return ele.isChecked == true
+			})
+		}else if(toFilter === 'no'){
+			console.log('进入no')
+			return this.state.arr.filter((ele)=>{
+				console.log(ele)
+				return ele.isChecked == false
+			})
+		}
+	}
+	componentDidMount(){
+      this.noFinishSum();
+      
+  	}
+	confirmChange(ele){
+		let {editItem} = this.state
+		console.log(ele)
+		let ind = this.state.arr.indexOf(ele)
+		console.log(ind)
+		//这里设置editItem为空//就是让其知道没有于任何元素,让样式都初始化
+		this.setState({			
+			editItem:''
+		})
+		//将改变之后的arr值重新通过this.setState重新赋值给arr,从而是arr产生动态刷新
+		//避免了arr值改变,而页面上arr值不改变的问题
+		
+		//若重新输入框的值改变的话,才会触发相关函数,inputValue才有相关值//就可以完成下面的相关赋值
+		//若仅仅是打开输入框,没有进行输入值,没有触发相关函数,则此时inputValue会为零//则此时应该将原来已有的值赋值给inputValue//
+		if(this.state.inputValue){
+			//这里是在重新输入框重新输入值之后执行的
+			let item ={
+				name:this.state.inputValue
+			}
+			this.state.arr.splice(ind,1,item)
+			this.setState({
+				//对arr进行动态值赋值//从而可以使页面的arr值可以改变
+				arr:this.state.arr,
+				//当点击事件发生后,需要将输入框里面的内容清空
+				inputValue:''
+			})
+		}else{
+			console.log('不得输入空值')
+		}
+
+		
+//		//当输入的值非空时,才执行插入操作//若输入为空值,则给一个警告框
+//		if(this.state.inputValue){
+//			this.setState({
+//				//对arr进行动态值赋值//从而可以使页面的arr值可以改变
+//				arr:this.state.arr,
+//				//当点击事件发生后,需要将输入框里面的内容清空
+//				inputValue:''
+//			})
+//		}else{
+//			//此时::输入为空值
+////			alert('输入不得为空')
+//			console.log('不得输入空值')
+//		}
+	}
+	//当双击之后::运行该函数
+	editList(ele){		
+		//将传递过来的对象赋值给一个变量
+//		console.log(this.state.editItem)
+//		console.log("ele",ele)
+		this.state.editItem = ele.name
+		this.setState({
+			editItem:this.state.editItem
+		})
+		console.log(this.state.editItem)
+		//这this.refs[ele]就代表了其ref值为ele的标签
+		//事件队列的问题,当执行editList函数里面的自有代码时--立马要执行聚焦操作--而此时上面的数据刚完成,还未将数据渲染到视图中,那要对该视图进行操作的话,会操作失败,////所以可以用一个回调函数来进行
+		setTimeout(()=>{
+			this.refs[ele.name].focus()
+		},0)
+	}
+	noFinishSum(){
+		console.log('已经运行该函数了')
+		let filterArr = this.state.arr.filter((ele,index) =>{
+			return ele.isChecked === false
+		})
+		let length = filterArr.length
+		console.log(length)
+		this.setState({
+			noFinishSum : length
+		})		
+	}
+	//生命周期函数
+	componentDidMount(){
+      this.noFinishSum();
+  	}
+	checkBoxChange(ele,evt){
+		//改变该对象的控制选中/未选中的变量值
+//		console.log(ele)
+		let ind = this.state.arr.indexOf(ele)
+//		console.log(ind)
+//		console.log(this.state.arr[1])
+//		console.log(this.state.arr[ind].isChecked)
+//		this.setState()
+		this.state.arr[ind].isChecked = evt.target.checked;
+		this.setState({
+//			arr[ind].isChecked : true
+			arr:this.state.arr
+		})
+		//运行noFinishSum//cone计算出未完成的任务量
+		console.log('要运行该函数了')
+		this.noFinishSum()
+	}
+
+
+
+
+	deleteList(index){
+//		console.log("执行删除",index)
+		//对数组进行操作-->然后将处理之后的数据重新赋值给数组变量
+		this.state.arr.splice(index,1)
+//		console.log(this.state.arr)
+		this.setState({
+			//对arr进行动态值赋值//从而可以使页面的arr值可以改变
+			arr:this.state.arr
+		})
+		//当删除之后,再次重新获取未完成任务的数量
+		this.noFinishSum()
+	}
+
+	addList(){
+		
+		//将改变之后的arr值重新通过this.setState重新赋值给arr,从而是arr产生动态刷新
+		//避免了arr值改变,而页面上arr值不改变的问题
+		let addInputValue = {
+			name:this.state.inputValue,
+			isChecked:false
+		}
+		this.state.arr.unshift( addInputValue)
+		
+		//当输入的值非空时,才执行插入操作//若输入为空值,则给一个警告框
+		if(this.state.inputValue){
+			this.setState({
+				//对arr进行动态值赋值//从而可以使页面的arr值可以改变
+				arr:this.state.arr								
+			})
+			//当确认事件发生后,需要将输入框里面的内容清空
+			inputValue:''
+		}else{
+			//此时::输入为空值
+			alert('输入不得为空')
+		}
+		//当添加数据完成之后,在重新执行以下获取未选中的选项的总数
+		this.noFinishSum()
+	
+	}
+	clickHandle(event){
+		//通过事件对象获取改变之后的值//即event.target.value代表更改之后input里面的值
+		this.setState({
+			inputValue:event.target.value
+		})
+//		console.log(this.state.inputValue)
+	}
+}
+ReactDOM.render(
+	<div>		
+		<NewComponent ></NewComponent>
+	</div>	
+	,
+	document.getElementById('example')
+)
+</script>
+</html>

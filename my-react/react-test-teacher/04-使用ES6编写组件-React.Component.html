@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+			<div id="example"></div>	
+
+		<script src="react.js"></script>
+    	<script src="react-dom.js"></script>
+    	<script src="browser.min.js"></script>
+    	
+    	<script type="text/babel">
+    		class NewDom extends React.Component{
+    			render(){
+    				return (
+						<p>Hello, React</p> 
+    				);
+    			}
+    		}
+    		
+    		ReactDOM.render(
+    			<NewDom/>,
+    			document.getElementById('example')
+    		)
+    	</script>
+	</body>
+</html>

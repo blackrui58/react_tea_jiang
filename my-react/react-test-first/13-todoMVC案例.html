@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh">
+<style type="text/css">
+	.active{
+		background: #FF0000;
+		display: none;
+	}
+	.normal{
+		background: #CCCCCC;
+		display: block;
+	}
+	.inputActive{
+		display: block;
+	}
+	.inputNormal{
+		display: none;
+	}
+</style>
+<head>
+	<meta charset="UTF-8" />
+	
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+</head>
+<body>
+	<div id="example">
+		
+	</div>
+</body>
+<script src="react.js" type="text/javascript" charset="utf-8"></script>
+<script src="react-dom.js" type="text/javascript" charset="utf-8"></script>
+<script src="browser.min.js" type="text/javascript" charset="utf-8"></script>
+<!--默认的type为text/javascript::::::因为这里写的是jsx语法,不是js语法,所以需要将type改写为text/babel-->
+<script type="text/babel">
+class NewComponent extends React.Component {
+	constructor(props){
+		super(props)//固定写法:::继承父类中已有的属性
+
+		this.state = {			
+			arr:['guo','jia','na','chuan'],
+			inputValue:'',
+			editItem:'初始化'
+		}
+		this.clickHandle = this.clickHandle.bind(this)
+		this.addList = this.addList.bind(this)
+		this.deleteList = this.deleteList.bind(this)
+		this.editList = this.editList.bind(this)
+		//确认更新事件函数
+		this.confirmChange = this.confirmChange.bind(this)
+		this.checkBoxChange = this.checkBoxChange.bind(this)
+		this.checkBoxClick = this.checkBoxClick.bind(this)
+	}
+	render(){
+		let {editItem} = this.state
+		//在数组中,若是对数组进行排序的话,序列值会发生改变,如果通过序列值来判断数组中的某一元素,然后进行操作,容易产生误差
+		//在内存中,对象具有唯一性,所以若根据数组中的每一项来判断每一个元素,将可以完全保证其正确性
+		let lis = this.state.arr.map((ele,index) =>{
+			return <div key={index}>
+				
+				<input type="checkBox" checked="this.state.isChecked" onChange={ ()=> {this.checkBoxChange} } ></input>
+				<li onDoubleClick ={  ()=>{this.editList (ele)}  } className= {editItem === ele ? 'active' : 'normal'}> {ele} </li>
+				<input className= {editItem === ele ? 'inputActive' : 'inputNormal'} value={this.state.inputValue ? this.state.inputValue : ele} onChange={this.clickHandle} onBlur={ () => {this.confirmChange(ele)} }></input>
+				<button onClick={() => {this.deleteList(index)}}>删除</button>
+				<button onClick={() => {this.editList(index)}}>编辑</button>
+				
+			</div> 
+			
+		})
+		
+		return(
+			<div>
+				<input value={this.state.inputValue} onChange={this.clickHandle}></input> 
+				<button onClick={() => {this.addList()}}>添加</button>
+				<ul>
+					{lis} 
+					
+				</ul>
+			</div>
+		)
+	}
+	checkBoxClick(){
+		console.log('这次真正改变了')
+	}
+	checkBoxChange(){
+		console.log('改变了')
+		//当点击的时候,不执行该函数
+	}
+	confirmChange(ele){
+		let ind = this.state.arr.indexOf(ele)
+		console.log(ind)
+		this.setState({
+			//当
+			editItem:''
+		})
+		//将改变之后的arr值重新通过this.setState重新赋值给arr,从而是arr产生动态刷新
+		//避免了arr值改变,而页面上arr值不改变的问题
+		this.state.arr.splice(ind,1,this.state.inputValue)
+		
+		//当输入的值非空时,才执行插入操作//若输入为空值,则给一个警告框
+		if(this.state.inputValue){
+			this.setState({
+				//对arr进行动态值赋值//从而可以使页面的arr值可以改变
+				arr:this.state.arr,
+				//当点击事件发生后,需要将输入框里面的内容清空
+				inputValue:''
+			})
+		}else{
+			//此时::输入为空值
+			alert('输入不得为空')
+		}
+	}
+	deleteList(index){
+		console.log("执行删除",index)
+		//对数组进行操作-->然后将处理之后的数据重新赋值给数组变量
+		this.state.arr.splice(index,1)
+		console.log(this.state.arr)
+		this.setState({
+			//对arr进行动态值赋值//从而可以使页面的arr值可以改变
+			arr:this.state.arr
+		})
+	}
+	editList(ele){
+//		console.log(ele)
+//		console.log(typeof ele)
+//		console.log(this.state.editItem)
+		
+		//将传递过来的对象赋值给一个变量
+		this.setState({
+			editItem:ele
+		})
+
+		
+
+	}
+	addList(){
+		//将改变之后的arr值重新通过this.setState重新赋值给arr,从而是arr产生动态刷新
+		//避免了arr值改变,而页面上arr值不改变的问题
+		this.state.arr.unshift( this.state.inputValue )
+		
+		//当输入的值非空时,才执行插入操作//若输入为空值,则给一个警告框
+		if(this.state.inputValue){
+			this.setState({
+				//对arr进行动态值赋值//从而可以使页面的arr值可以改变
+				arr:this.state.arr,
+				//当点击事件发生后,需要将输入框里面的内容清空
+				inputValue:''
+			})
+		}else{
+			//此时::输入为空值
+			alert('输入不得为空')
+		}
+	
+	}
+	clickHandle(event){
+		//通过事件对象获取改变之后的值//即event.target.value代表更改之后input里面的值
+		console.log(event)
+		console.log(event.target)
+		console.log(event.target.value)
+		this.setState({
+			inputValue:event.target.value
+		})
+		console.log(this.state.inputValue)
+	}
+}
+ReactDOM.render(
+	<div>		
+		<NewComponent ></NewComponent>
+	</div>	
+	,
+	document.getElementById('example')
+)
+</script>
+</html>

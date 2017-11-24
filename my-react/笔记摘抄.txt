@@ -1,0 +1,15 @@
+// 用纯js在react中创建a标签
+var newDom = React.createElement('a', {href: 'https://facebook.github.io/react/'}, 'Hello!');
+// 用jsx在react中创建a标签
+var newDom = <a href="https://facebook.github.io/react/">Hello!</a>;
+
+
+
+
+- 事件: 
+	- 与原生JS事件名稍有不同,  比如 onClick 
+	- 在class内部声明一个函数. 
+	- 绑定this: 在constructor里,强制绑定this. this.clickHandle = this.clickHandle.bind(this);
+	- onClick = {this.clickHandle}
+	- 带普通参数:   onClick = {()=>{this.clickHandle(111)}} 
+	- 带事件对象: onClick = {(e)=>{this.clickHandle(111,e)}}

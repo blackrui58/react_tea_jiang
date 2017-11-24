@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="example"></div>
+		<script src="react.js" type="text/javascript" charset="utf-8"></script>
+		<script src="react-dom.js" type="text/javascript" charset="utf-8"></script>
+		<script src="browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			class NewComponent extends React.Component{
+				constructor(props){
+					super(props);
+					this.state = {
+						msg: 'hello',
+						aaa:'aaa',
+						bbb:'bbb'
+					};
+				}
+				render(){
+					let {msg,aaa} = this.state; 
+					return (
+						<div>{msg}{aaa}</div>
+					);
+				}
+			}
+			
+			
+			ReactDOM.render(
+				<NewComponent/>,document.getElementById('example')
+			);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+</head>
+<body>
+	<div id="example">
+		
+	</div>
+</body>
+<script src="react.js" type="text/javascript" charset="utf-8"></script>
+<script src="react-dom.js" type="text/javascript" charset="utf-8"></script>
+<script src="browser.min.js" type="text/javascript" charset="utf-8"></script>
+<!--默认的type为text/javascript::::::因为这里写的是jsx语法,不是js语法,所以需要将type改写为text/babel-->
+<script type="text/babel">
+//es66666666666写法来自定义组件
+//自定义组件的名称首字母::必须必须:::大写Component
+
+
+class NewComponent extends React.Component {
+	constructor(props){
+		super(props)//固定写法:::继承父类中已有的属性
+//		this.state = {
+//			msg:'es6写法变量赋值'
+//		}
+//		上面是单个变量,下面有{this.state.msg}还可以,若是多个变量呢;;;;;如
+		this.state = {
+			msg:'guorui',
+			name:'jiahui',
+			age:"nana"
+		}
+		this.clickHandle = this.clickHandle.bind(this)
+	}
+	render(){
+		//用解构赋值的方法减少this.state的书写::即
+		let {msg,name,age} = this.state
+		//同理::若父组件传值过来的值数太多,也可以进行结构赋值,如下所示,就不用{this.props.title}这样来调用父组件传递过来的值
+		let{title} =this.props
+		return(
+			//父组件传值,可以直接在这边引用,不需要和vue一样,必须先将该变量在子组件中申明一下
+			//但若是需要对该变量设置默认值,则需要单独设置
+			
+			//若要传递事件参数,如下所示,
+			<h1 onClick={(e) => {this.clickHandle('普事件参数',e)}}>es6的组件的写法    {msg}{name}{age}  &nbsp; {title}</h1>
+		)
+	}
+	clickHandle(val,e){
+		console.log(e)
+		console.log('普通事件处理',val)
+	}
+}
+//给父组件传递过来的值设置默认值:::用defaultProps方法[格式为:::类名.defaultProps]
+NewComponent.defaultProps = {
+	title:'es6中设置的默认值--父组件传递过来的'
+}
+	
+//将组件挂载到html上面
+//ReactDOM.render用来渲染//第一个参数是将要渲染的东西::可以是具体的标签,可以是一个变量,也可以是一个组件名::::但都需要有顶级组件//第二个参数是元素将要挂载的地方
+
+ReactDOM.render(
+	<div>
+		<NewComponent title="es6中父组件传值"></NewComponent>
+		<NewComponent ></NewComponent>
+	</div>
+	
+	,
+	document.getElementById('example')
+)
+</script>
+</html>

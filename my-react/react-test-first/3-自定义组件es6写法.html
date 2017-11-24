@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+</head>
+<body>
+	<div id="example">
+		
+	</div>
+</body>
+<script src="react.js" type="text/javascript" charset="utf-8"></script>
+<script src="react-dom.js" type="text/javascript" charset="utf-8"></script>
+<script src="browser.min.js" type="text/javascript" charset="utf-8"></script>
+<!--默认的type为text/javascript::::::因为这里写的是jsx语法,不是js语法,所以需要将type改写为text/babel-->
+<script type="text/babel">
+//es66666666666写法来自定义组件
+//自定义组件的名称首字母::必须必须:::大写Component
+
+
+class NewComponent extends React.Component {
+	constructor(props){
+		super(props)//固定写法:::继承父类中已有的属性
+//		this.state = {
+//			msg:'es6写法变量赋值'
+//		}
+//		上面是单个变量,下面有{this.state.msg}还可以,若是多个变量呢;;;;;如
+		this.state = {
+			msg:'guorui',
+			name:'jiahui',
+			age:"nana"
+		}
+//		用{this.state.msg}{this.state.name}{this.state.age}来多个进行赋值,将this.state多次重复写,太麻烦
+//		用解构赋值的方法减少this.state的书写
+	}
+	render(){
+		//用解构赋值的方法减少this.state的书写::即
+		let {msg,name,age} = this.state
+		return(
+			//当解构赋值之后,下面的两种方式都可以引用变量,但是明显第二种比较方便
+			<h1>es6的组件的写法    {this.state.msg}{this.state.name}{this.state.age}</h1>
+//			<h1>es6的组件的写法    {msg}{name}{age}</h1>
+		)
+	}
+}
+	
+//将组件挂载到html上面
+//ReactDOM.render用来渲染//第一个参数是将要渲染的东西::可以是具体的标签,可以是一个变量,也可以是一个组件名::::但都需要有顶级组件//第二个参数是元素将要挂载的地方
+
+ReactDOM.render(
+	<div>
+		<NewComponent></NewComponent>
+		<NewComponent></NewComponent>
+		<NewComponent></NewComponent>
+	</div>
+	
+	,
+	document.getElementById('example')
+)
+</script>
+</html>

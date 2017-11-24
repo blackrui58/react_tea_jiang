@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+	<div id="example"></div>	
+	<script src="react.js"></script>
+    <script src="react-dom.js"></script>
+    <script src="browser.min.js"></script>
+    
+     <script type="text/babel">
+     	class Component1 extends React.Component{
+     		constructor(props){
+     			super(props);
+     			this.state = {
+     				inputChange:""
+     			};
+     			this.inputChange = this.inputChange.bind(this);
+     			this.focus = this.focus.bind(this);
+     		}
+     		inputChange(ev){
+     			this.setState({
+     				inputChange: ev.target.value
+     			});
+     		}
+     		focus(){
+     			console.log(this.refs);//在组件mount之后再去拿ref
+     			this.refs.editInput.focus();
+     		}
+     		componentWillMount(){
+     			console.log(this.refs.editInput, 'will');	
+     		}
+     		
+     		componentDidMount(){
+     			console.log(this.refs.editInput, 'did');
+     		}
+     		
+     		render(){
+     			
+     			let {inputVal} = this.state;
+     			let {inputChange , focus} = this;
+     			return <div>
+     				<input  value = {inputVal} onChange = {inputChange}  ref = "editInput" />
+     				<button onClick = {focus}>聚焦</button>
+     			</div>;
+     		}
+     	}
+     	
+     	ReactDOM.render(
+     		<Component1 ></Component1> ,
+     		document.getElementById("example")
+     	);
+     </script>
+	</body>
+</html>

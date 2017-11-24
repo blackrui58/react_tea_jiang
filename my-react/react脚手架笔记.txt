@@ -1,0 +1,7 @@
+npm install -g create-react-app
+
+cd 桌面 (要安装整个react项目的文件夹)
+create-react-app my-app(my-app:::代表你要安装的项目的文件夹名称)
+
+cd my-app 
+npm start

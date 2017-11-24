@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+			
+	<div id="example"></div>	
+	<script src="react.js"></script>
+    <script src="react-dom.js"></script>
+    <script src="browser.min.js"></script>
+     <script type = "text/babel">
+		class Component1 extends React.Component{ //类名开头一定要大写
+			constructor(props){
+				super(props);
+				this.state = {
+					inputVal : ''
+				}
+				
+				this.clickHandle = this.clickHandle.bind(this);
+			}
+			
+			clickHandle(e) {
+			    this.setState({inputVal: e.target.value});
+			}
+			
+			
+			render(){
+				return (
+					<div>
+					<input value = {this.state.inputVal} onChange = {this.clickHandle}/>
+					 {this.state.inputVal} 
+					</div>
+				);
+			}
+		}
+		
+		
+    	ReactDOM.render(
+     		<Component1></Component1> ,
+     		document.getElementById("example")
+     	);
+     	
+    </script>
+	</body>
+</html>

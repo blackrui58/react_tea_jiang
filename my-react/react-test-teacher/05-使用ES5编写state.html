@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="example"></div>	
+	<script src="react.js"></script>
+    <script src="react-dom.js"></script>
+    <script src="browser.min.js"></script>
+    <script type="text/babel">
+    	
+    	var NewComponent = React.createClass({
+    		render:function(){
+    			
+    			return (
+    				<div>{this.state.msg}</div>
+    			);
+    		},
+    		getInitialState: function(){
+    			return {
+    				msg: 'hello',
+    				aaa: 'aaa',
+    				bbb: 'bbb'
+    			};
+    		}
+    	});
+    	
+    	ReactDOM.render(
+    		<NewComponent/>, document.getElementById('example')
+    	);
+    </script>
+	</body>
+</html>
